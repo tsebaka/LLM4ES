@@ -1,0 +1,6 @@
+[submodule "source/llm-foundry"]
+	path = source/llm-foundry
+	url = https://github.com/tsebaka/llm-foundry
+[submodule "source/ptls-experiments"]
+	path = source/ptls-experiments
+	url = https://github.com/pytorch-lifestream/ptls-experiments
