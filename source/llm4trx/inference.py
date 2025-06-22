@@ -1,4 +1,4 @@
-import accelerate
+ import accelerate
 import numpy as np
 import pandas as pd
 import hydra
@@ -69,15 +69,12 @@ def inference(
         for i in tqdm(range(len(embeddings[0]))):
             embeddings_train_test[f'emb_{i+1:04d}'] = embeddings_train_test["embedding"].apply(lambda x: x[i])
             
-        # embeddings_train_test.drop("embedding", axis=1, inplace=True)
-        # embeddings_train_test = embeddings_train_test.drop_duplicates(subset=config.dataset.col_id, keep='last').reset_index(drop=True)
         embeddings_train_test = (
             embeddings_train_test
             .drop("embedding", axis=1)
             .drop_duplicates(subset=config.variables.dataset.col_id, keep='last')
             .reset_index(drop=True)
         )
-        # embeddings_train_test.to_parquet(f"{config.log_dir}/{config.checkpoint}.parquet")
         embeddings_train_test.to_parquet(config.variables.embeddings_output_path)
 
 
