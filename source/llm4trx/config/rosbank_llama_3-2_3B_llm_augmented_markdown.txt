@@ -1,0 +1,97 @@
+project: "gigachat"
+seed: 42
+device: "cuda"
+exp_name: "Llama-3.2-1B-sft"
+log_dir: "/home/jovyan/zoloev-city/gigachat/checkpoints-logs/${exp_name}"
+checkpoint: "checkpoint-304"
+
+model:
+    path: "meta-llama/Llama-3.2-3B"
+    marking_path: "meta-llama/Llama-3.3-70B-Instruct"
+    # save_path: "/home/jovyan/zoloev-city/gigachat/checkpoints-logs/${exp_name}/${checkpoint}"
+    save_path: "/workspace-SR003.nfs2/zoloev-city/gigachat/checkpoints-logs/${exp_name}/${checkpoint}"
+    use_flash_attn: true
+    use_bfloat16: true
+    equal_pad_eos_id: true
+    max_length: 8192
+
+dataset:
+    name: "rosbank"
+    train_path: "/home/jovyan/zoloev/src/ptls-experiments/scenario_rosbank/data/train_trx.parquet"
+    test_path: "/home/jovyan/zoloev/src/ptls-experiments/scenario_rosbank/data/test_trx.parquet"
+    mcc_desc: true
+    debug: false
+    presave: false
+
+    col_id: "cl_id"
+    header_features: 
+        - "UNIX days"
+        - "Amount(rubles, scaled)"
+        - "Merchant category codes"
+        - "Channel_type(SWIFT transfer, credit card repayment, or intra-bank transfer and etc)"
+        - "Transaction category(ATM withdrawal, purchase in the terminal and etc)"
+    header_separator: "|"
+    features:
+        - "event_time"
+        - "amount"
+        - "mcc"
+        - "channel_type"
+        - "trx_category"
+    feature_separator: ", "
+    trx_separator: "\n"
+
+    marked_dataset: true
+    chat: true
+    chat_messages:
+        system: >
+            You are a specialized AI assistant designed for text data transformation.
+            Your task is to take a structured list of financial transactions and convert them into different text-based formats based on the user's request. 
+            Ensure clarity, accuracy, and proper formatting while preserving all original data fields.
+            You are capable of transforming data into formats including:
+            - JSON
+            - Markdown
+            - HTML
+            - Plain text tables
+            Always ensure the output is well-structured and visually clear. 
+            If the user specifies a custom format, follow the instructions closely. Ask for clarifications when the format is ambiguous.
+        user: >
+            I have a list of financial transactions in a structured tabular format.
+            Please creatively transform this data into a Markdown textual representation. 
+            ### Requirements:
+            - Paraphrase category names and transaction types while keeping the meaning clear.
+            - Ensure the data remains understandable but presented differently.
+            - Give in the end a little bit analysis about this user transactions.
+            Generate the transformed output. In response write only trasformed transactions, analysis and nothing more! (Don't give a description of your actions)
+    sampling:
+        temperature: 0.6
+        top_p: 0.9 
+        max_tokens: 8192
+
+args:
+    report_to: "wandb"
+    log_dir: "./logs"
+    logging_strategy: "steps"
+    logging_steps: 10
+    save_strategy: "steps"
+    save_steps: 6000
+
+    bf16: true
+    train_epochs: 2
+    max_steps: 5
+    train_batch_size: 1
+    warmup_steps: 608
+    learning_rate: 1e-5
+    max_grad_norm: 1
+    lr_scheduler_type: "cosine"
+    weight_decay: 1e-6
+    adam_beta2: 0.95
+    adam_epsilon: 1e-5
+    optim: "adamw_torch"
+
+    do_eval: "no"
+    eval_batch_size: 6
+
+    gradient_accumulation_steps: 1
+
+inference:
+    from_layer_slice: 9
