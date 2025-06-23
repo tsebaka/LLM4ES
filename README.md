@@ -23,7 +23,7 @@ in this repo:
 * `scripts/` - скрипты для запуска экспериментов и аугментаций
 
 # code
-В [https://github.com/mosaicml/llm-foundry/tree/main](llm-foundry) по дефолту используется argparse, так как это не совсем удобно, 
+В (llm-foundry)[https://github.com/mosaicml/llm-foundry/tree/main] по дефолту используется argparse, так как это не совсем удобно, 
 я переписал часть их кода для того
 чтобы можно было использовать Hydra и удобно пользоваться конфигами. Также я добавил в их dataset возможность
 обрезать последовательность по max_length, а не просто указывать concat_tokens (потому что библиотека используется
