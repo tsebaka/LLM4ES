@@ -33,10 +33,10 @@ in this repo:
 Немного про страктуру запусков:
 | Параметр  | transaformers | llm-foundry |
 |-----------|-----------|-----------|
-|augmentations|vllm|vllm|
-|dataset |.csv переведённый в hf dataset|.jsonl переведённый в формат Streaming dataset|
+|augmentations|[vllm](https://github.com/vllm-project/vllm)|[vllm](https://github.com/vllm-project/vllm)|
+|dataset |.csv переведённый в hf dataset|.jsonl переведённый в формат [Streaming dataset](https://github.com/mosaicml/streaming)|
 | FSDP  | - | + |
-| inferece  | multi gpu accelerate  | multi gpu accelerate  |
+| inferece  | multi gpu [accelerate](https://github.com/huggingface/accelerate)  | multi gpu [accelerate](https://github.com/huggingface/accelerate)  |
 | model  | hugging face AutoModel  | Mosaic ML composer  |
 | speed (на датасете росбанка)  | 2.5h | 1.3h  |
 
