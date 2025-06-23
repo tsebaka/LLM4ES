@@ -22,7 +22,7 @@ in this repo:
   * `ptls-experiments/` - data & downstream embeddings validation
 * `scripts/` - скрипты для запуска экспериментов и аугментаций
 
-# ease
+# code
 В [https://github.com/mosaicml/llm-foundry/tree/main](llm-foundry) по дефолту используется argparse, так как это не совсем удобно, 
 я переписал часть их кода для того
 чтобы можно было использовать Hydra и удобно пользоваться конфигами. Также я добавил в их dataset возможность
