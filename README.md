@@ -10,12 +10,14 @@
 in this repo:
 * `source/` - source code
   * `llm4trx/` - HF-style multi-gpu llm train
-     * src/
-       * `augmentation.py` - код для запуска vllm для генерации аугментаций
-       * `pretrain.py` - для next-token-prediction LLM training
-       * `inference.py` - multi-gpu llm inference
-       * `convert_to_text.py` - конвертер в базовый формат с сохранением jsonl файла (для дальнейшей конвертации в стриминг)
-       * `converters.py` - конвертеры в разные форматы
+    * `augmentation.py` - код для запуска vllm для генерации аугментаций
+    * `pretrain.py` - для next-token-prediction LLM training
+    * `inference.py` - multi-gpu llm inference
+    * `convert_to_text.py` - конвертер в базовый формат с сохранением jsonl файла (для дальнейшей конвертации в стриминг)
+    * `converters.py` - конвертеры в разные форматы
+      * src/
+        * `dataset.py` - всё что связано с обработкой датасета, будь то перевод в текст или создание DataLoader
+        * `utils.py` - утилиты для получения моделей, эмбеддинга, подсчёта параметров модели и тд
   * `llm-foundry/` - fastest multi-gpu llm train
   * `ptls-experiments/` - data & downstream embeddings validation
 * `scripts/` - scripts for running experiments & augmentations
