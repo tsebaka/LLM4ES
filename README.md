@@ -49,7 +49,6 @@ cd ..
 
 ## hf-style training & augmentations
 ```sh
-# augmentation & HF-style training
 eval "$(conda shell.bash hook)"
 
 export CUDA_VISIBLE_DEVICES=0,1,2,3
