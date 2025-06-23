@@ -15,7 +15,7 @@ in this repo:
     * `inference.py` - multi-gpu llm inference
     * `convert_to_text.py` - конвертер в базовый формат с сохранением jsonl файла (для дальнейшей конвертации в стриминг)
     * `converters.py` - конвертеры в разные форматы
-      * src/
+      * `src/`
         * `dataset.py` - всё что связано с обработкой датасета, будь то перевод в текст или создание DataLoader
         * `utils.py` - утилиты для получения моделей, эмбеддинга, подсчёта параметров модели и тд
   * `llm-foundry/` - fastest multi-gpu llm train
