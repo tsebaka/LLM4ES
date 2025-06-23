@@ -30,7 +30,7 @@ in this repo:
 для обучения LLM с нуляи и там просто нет смысла делать обрезку по max_length в режиме pretrain). Это единственное,
 что отличает оригинальную библиотеку от моего форка, который используется в этом репозитории.
 
-Немного про страктуру запусков:
+Немного про различия двух вариантов запуска:
 | Параметр  | transaformers | llm-foundry |
 |-----------|-----------|-----------|
 |augmentations|[vllm](https://github.com/vllm-project/vllm)|[vllm](https://github.com/vllm-project/vllm)|
@@ -38,7 +38,8 @@ in this repo:
 | FSDP  | - | + |
 | inferece  | multi gpu [accelerate](https://github.com/huggingface/accelerate)  | multi gpu [accelerate](https://github.com/huggingface/accelerate)  |
 | model  | hugging face AutoModel  | Mosaic ML composer  |
-| speed (на датасете росбанка)  | 2.5h | 1.3h  |
+| скорость (на датасете росбанка)  | 2.5h | 1.3h  |
+| удобство в добавлении деталей | максимально гибок | сложно без переписывания библиотеки добавить что-то новое  |
 
 # usage
 
