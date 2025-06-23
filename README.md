@@ -17,6 +17,7 @@ in this repo:
     * `converters.py` - конвертеры в разные форматы
       * `src/`
         * `dataset.py` - всё что связано с обработкой датасета, будь то перевод в текст или создание DataLoader
+        * `dataset_hf.py` - устаревшая весия датасета, используется для тренировки в HF-style и аугментаций
         * `utils.py` - утилиты для получения моделей, эмбеддинга, подсчёта параметров модели и тд
   * `llm-foundry/` - fastest multi-gpu llm train
   * `ptls-experiments/` - data & downstream embeddings validation
