@@ -25,17 +25,20 @@ in this repo:
 # code
 В [llm-foundry](https://github.com/mosaicml/llm-foundry/tree/main) по дефолту используется argparse, так как это не совсем удобно, 
 я переписал часть их кода для того
-чтобы можно было использовать Hydra и удобно пользоваться конфигами. Также я добавил в их dataset возможность
+чтобы можно было использовать Hydra и удобно пользоваться конфигами. Также я добавил в их [ConcatTokensDataset](https://github.com/tsebaka/llm-foundry/blob/c70a4847463da8859d7236874ad6705285460f1a/llmfoundry/data/data.py) возможность
 обрезать последовательность по max_length, а не просто указывать concat_tokens (потому что библиотека используется
 для обучения LLM с нуляи и там просто нет смысла делать обрезку по max_length в режиме pretrain). Это единственное,
 что отличает оригинальную библиотеку от моего форка, который используется в этом репозитории.
 
+Немного про страктуру запусков:
 | Параметр  | transaformers | llm-foundry |
 |-----------|-----------|-----------|
+|augmentations|vllm|vllm|
 |dataset |.csv переведённый в hf dataset|.jsonl переведённый в формат Streaming dataset|
 | FSDP  | - | + |
 | inferece  | multi gpu accelerate  | multi gpu accelerate  |
 | model  | hugging face AutoModel  | Mosaic ML composer  |
+| speed (на датасете росбанка)  | 2.5h | 1.3h  |
 
 # usage
 
