@@ -20,7 +20,7 @@ in this repo:
         * `utils.py` - утилиты для получения моделей, эмбеддинга, подсчёта параметров модели и тд
   * `llm-foundry/` - fastest multi-gpu llm train
   * `ptls-experiments/` - data & downstream embeddings validation
-* `scripts/` - scripts for running experiments & augmentations
+* `scripts/` - скрипты для запуска экспериментов и аугментаций
 
 # usage
 ```sh
