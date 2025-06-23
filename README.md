@@ -22,13 +22,20 @@ in this repo:
   * `ptls-experiments/` - data & downstream embeddings validation
 * `scripts/` - скрипты для запуска экспериментов и аугментаций
 
-# удобство
+# ease
 В [https://github.com/mosaicml/llm-foundry/tree/main](llm-foundry) по дефолту используется argparse, так как это не совсем удобно, 
 я переписал часть их кода для того
 чтобы можно было использовать Hydra и удобно пользоваться конфигами. Также я добавил в их dataset возможность
 обрезать последовательность по max_length, а не просто указывать concat_tokens (потому что библиотека используется
 для обучения LLM с нуляи и там просто нет смысла делать обрезку по max_length в режиме pretrain). Это единственное,
-что отличает оригинальную библиотеку от моего форка, который используется в этом репозитории
+что отличает оригинальную библиотеку от моего форка, который используется в этом репозитории.
+
+| Параметр  | transaformers | llm-foundry |
+|-----------|-----------|-----------|
+|dataset |.csv переведённый в hf dataset|.jsonl переведённый в формат Streaming dataset|
+| FSDP  | - | + |
+| inferece  | multi gpu accelerate  | multi gpu accelerate  |
+| model  | hugging face AutoModel  | Mosaic ML composer  |
 
 # usage
 
