@@ -61,10 +61,9 @@ config_name="${exp_name}.yaml"
 
 export WANDB_DIR=$log_dir
 
-conda activate gigachat_cuda123
+source llmfoundry-venv/bin/activate # для hf-style придётся доставить transformers нужной версии
 
 # # llm text augmentations
-# marking json протестить на age
 python -m dataset_preparing \
     --config-dir config \
     --config-name ${config_name} \
