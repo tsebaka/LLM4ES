@@ -59,7 +59,15 @@ in this repo:
 
 # usage
 
-## настройка окружения
+## с Docker'ом (лучше всего)
+<!--pytest.mark.skip-->
+```bash
+git clone https://github.com/mosaicml/llm-foundry.git
+cd llm-foundry
+pip install -e ".[gpu]"
+```
+
+## настройка окружения (без Docker'а)
 ```sh
 git clone https://github.com/tsebaka/LLM4Trx-research.git
 cd LLM4Trx-research
