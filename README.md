@@ -1,6 +1,6 @@
 # LLM4Trx-research
 <p align="center">
-  <img src="assets/llm4trx-image.png" alt="llm4trx" width="300"/>
+  <img src="assets/llm4trx-logo.png" alt="llm4trx" width="300"/>
 </p>
 ## about
 Этот репозиторий посвящён экспериментам с LLM на транзакционных данных
