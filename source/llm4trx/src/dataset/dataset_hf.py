@@ -29,7 +29,7 @@ def trx_to_text_converter(
                 transaction[feature][timestamp], 
                 feature
             ) for feature in list(config.dataset.features)
-        ) for timestamp in range(150) # len(transaction[config.dataset.features[0]])
+        ) for timestamp in range(len(transaction[config.dataset.features[0]]))
     ]
     text = config.dataset.trx_separator.join(transactions)
 
