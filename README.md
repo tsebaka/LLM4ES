@@ -24,10 +24,10 @@ in this repo:
 * `scripts/` - скрипты для запуска экспериментов и аугментаций
 
 Три основных конфига (под каждый датасет) лежат в:
-`scripts/train/yamls/pretrain`
+`source/llm-foundry/scripts/train/yamls/pretrain`
 
-Конфиги (с версией для HF) лежат в:
-`source/llm4trx/config` - сейчас используются для аугментаций
+Конфиги (с версией для HF, сейчас используются для аугментаций) лежат в:
+`source/llm4trx/config`
 
 # code
 В [llm-foundry](https://github.com/mosaicml/llm-foundry/tree/main) по дефолту используется argparse, так как это не совсем удобно, 
