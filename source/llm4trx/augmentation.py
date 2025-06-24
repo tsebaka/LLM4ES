@@ -24,7 +24,7 @@ def set_global_seed(config):
 
 
 def vllm_inference(
-    config,
+    config
 ):
     model = get_vllm_model(config)
     tokenizer = model.get_tokenizer()
