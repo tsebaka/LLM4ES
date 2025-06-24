@@ -1,6 +1,6 @@
 # LLM4Trx-research
 
-# about
+## about
 Этот репозиторий посвящён экспериментам с LLM на транзакционных данных
 
 Включает код для моего [диплома](https://drive.google.com/file/d/1YDm5gYVeSLEMmF_wP3rEfPRPy-1fPvyy/view),
@@ -37,7 +37,7 @@ in this repo:
 Конфиги (с версией для HF, сейчас используются для аугментаций) лежат в:
 `source/llm4trx/config`
 
-# code
+## code
 В [llm-foundry](https://github.com/mosaicml/llm-foundry/tree/main) по дефолту используется argparse, так как это не совсем удобно, 
 я переписал часть их кода для того
 чтобы можно было использовать Hydra и удобно пользоваться конфигами. Также я добавил в их [ConcatTokensDataset](https://github.com/tsebaka/llm-foundry/blob/c70a4847463da8859d7236874ad6705285460f1a/llmfoundry/data/data.py) возможность
@@ -57,9 +57,10 @@ in this repo:
 | удобство в добавлении деталей | максимально гибок | сложно без переписывания библиотеки добавить что-то новое  |
 | начальные эксперименты | + | - |
 
-# usage
+## usage
 
-## с Docker'ом (лучше всего)
+### с Docker'ом (лучше всего)
+image: https://hub.docker.com/orgs/mosaicml/repositories.
 <!--pytest.mark.skip-->
 ```bash
 git clone https://github.com/mosaicml/llm-foundry.git
@@ -67,7 +68,7 @@ cd llm-foundry
 pip install -e ".[gpu]"
 ```
 
-## настройка окружения (без Docker'а)
+### настройка окружения (без Docker'а)
 ```sh
 git clone https://github.com/tsebaka/LLM4Trx-research.git
 cd LLM4Trx-research
@@ -90,7 +91,7 @@ pip install deepspeed=0.15.4
 cd ..
 ```
 
-## llm-foundry training
+### llm-foundry training
 ```sh
 
 WORK_DIR=$HOME/zoloev-city/exp_name
@@ -137,7 +138,7 @@ accelerate launch $WORK_DIR/source/llm4trx/inference.py \
 echo "========== completed! =========="
 ```
 
-## hf-style training & augmentations
+### hf-style training & augmentations
 ```sh
 eval "$(conda shell.bash hook)"
 
@@ -193,7 +194,7 @@ pipenv run python -m embeddings_validation \
 conda deactivate
 ```
 
-# Hardware
+## Hardware
 В моём распоряжении было:
 
 - 8x NVIDIA A100 GPUs (80 GB HBM2e per GPU)
