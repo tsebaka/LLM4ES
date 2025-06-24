@@ -1,6 +1,6 @@
 # LLM4Trx-research
 <p align="center">
-  <img src="assets/llm4trx-logo.png" alt="llm4trx" width="360"/>
+  <img src="assets/llm4trx-logo.png" alt="llm4trx" width="1000"/>
 </p>
 
 ## about
