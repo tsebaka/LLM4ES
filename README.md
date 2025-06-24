@@ -1,13 +1,14 @@
 # LLM4Trx-research
 <p align="center">
-  <img src="assets/llm4trx-image.png" alt="llm4trx" width="300"/>
+  <img src="assets/llm4trx-logo.png" alt="llm4trx" width="300"/>
 </p>
+
 ## about
 Этот репозиторий посвящён экспериментам с LLM на транзакционных данных
 
 Включает код для моего [диплома](https://drive.google.com/file/d/1YDm5gYVeSLEMmF_wP3rEfPRPy-1fPvyy/view),
 а также для экспериментах на открытых данных 
-в ходе моей работы в Sber AI Lab команде [transactional deep learning](https://github.com/pytorch-lifestream)
+в ходе моей исследовательской работы в Sber AI Lab команде [transactional deep learning](https://github.com/pytorch-lifestream)
 
 in this repo:
 * `source/` - source code
