@@ -162,9 +162,6 @@ def trx_to_text_converter_grouped_by_mcc(
     tokenizer=None,
     chat=False,
 ):
-    # from transformers import AutoTokenizer
-
-    # tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.1-8B-Instruct")
     from collections import defaultdict
 
     features = [f for f in config.variables.dataset.features if f != "small_group"]
@@ -242,38 +239,6 @@ def trx_to_text_converter(
     return int(transaction[config.variables.dataset.col_id]), text
 
 
-# def get_vllm_dataset(
-#     config,
-#     tokenizer
-# ):  
-#     transactions = pd.read_parquet(config.dataset.train_path)
-#     if config.dataset.debug:
-#         transactions = transactions[0:5]
-#     preprocessor = get_feature_preprocessor(config)
-    
-#     transactions = transactions.progress_apply(
-#         lambda row: trx_to_text_converter(config, row, preprocessor=preprocessor, tokenizer=tokenizer, chat=True, inference=False), 
-#         axis=1
-#     )
-#     transactions.to_csv("assets/" + config.dataset.name + "/marking_dataset.csv", index=False)
-#     return transactions
-    
-
-# def tokenize_function(
-#     config, 
-#     inputs,
-#     tokenizer
-# ):
-#     tokens = tokenizer(
-#         inputs["prompt"],
-#         padding="max_length", 
-#         truncation=True, 
-#         max_length=config.model.max_length
-#     )
-
-#     return tokens
-
-
 def convertation(
     config,
     tokenizer
@@ -281,10 +246,6 @@ def convertation(
     if config.variables.text_convertation.use_augmentation:
         return True
     transactions = pd.read_parquet(config.variables.dataset.train_path)
-    # transactions = pd.concat((
-    #     pd.read_parquet("/home/jovyan/zoloev-city/gigachat/source/ptls-experiments/scenario_rosbank/data/train_trx.parquet"),
-    #     pd.read_parquet("/home/jovyan/zoloev-city/gigachat/source/ptls-experiments/scenario_rosbank/data/test_trx.parquet"))
-    # ).reset_index(drop=True)
     preprocessor = get_feature_preprocessor(config)
     
     transactions_text = transactions.progress_apply(
@@ -301,54 +262,11 @@ def convertation(
     
     return transactions_text
 
-    
-# def get_train_dataset(
-#     config, 
-#     tokenizer
-# ):
-#     transactions = pd.read_parquet(config.dataset.train_path)
-
-#     preprocessor = get_feature_preprocessor(config)
-#     # if config.dataset.marked_dataset:
-#     #     print("marked!")
-#     #     vllm_text_dataset = pd.read_csv("assets/" + config.dataset.name + "/transactions_text.csv").rename({"0": "out"}, axis=1)
-#     #     hf_dataset = Dataset.from_pandas(pd.DataFrame({"prompt": vllm_text_dataset["out"]}))
-#     # else:
-#     transactions = transactions.progress_apply(
-#         lambda row: trx_to_text_converter(config, row, preprocessor=preprocessor, inference=False), 
-#         axis=1
-#     )
-#         # transactions.to_csv("assets/" + config.dataset.name + "/transactions_text.csv", index=False)
-#         # transactions.to_csv("/home/jovyan/zoloev-city/gigachat/source/ptls-experiments/scenario_age_pred/data/transactions_text_amnt_mcc_valid.csv", index=False)
-#         # hf_dataset = Dataset.from_pandas(pd.DataFrame({"prompt": transactions}))
-#     transactions.to_json(
-#         ~/${work_dir}/source/ptls-experiments/scenario_${dataset}/data/transactions.jsonl,
-#         orient="records", 
-#         lines=True
-#     )
-    
-#     # dataset = hf_dataset.map(
-#     #     lambda inputs: tokenize_function(config, inputs, tokenizer), 
-#     #     batched=False, 
-#     #     # num_proc=4
-#     # )
-    
-#     # dataset.set_format(type="torch", columns=["input_ids", "attention_mask"])
-
-#     return dataset
-
 
 def get_inference_dataset(
     config, 
     tokenizer
 ):
-    # transactions = pd.concat((
-    #     pd.read_parquet(config.dataset.train_path),
-    #     pd.read_parquet(config.dataset.test_path))
-    # ).reset_index(drop=True)
-    # transactions_text = convertation(config, tokenizer)
-    
-    # ---
     transactions = pd.concat((
         pd.read_parquet(config.variables.dataset.train_path),
         pd.read_parquet(config.variables.dataset.test_path))
@@ -361,9 +279,7 @@ def get_inference_dataset(
         axis=1
     )
     transactions_text = pd.DataFrame(list(transactions_text), columns=["user_id", "inputs"])
-    # transactions_text["inputs"] = "target: " + transactions["target_flag"].astype(str) + transactions_text["inputs"]
-    # analysis = pd.read_csv("/home/jovyan/zoloev-city/gigachat/source/ptls-experiments/scenario_rosbank/data/4o-responses.csv")
-    # transactions_text["inputs"] = transactions_text["inputs"] + analysis["respone"]
+    
     transactions_text["inputs"] = '''You are an AI model trained to analyze financial transaction sequences.
     Given the following list of user transactions, predict whether the user is likely to stop using the service soon (i.e., churn).''' + transactions_text["inputs"]
 
@@ -371,35 +287,6 @@ def get_inference_dataset(
         f'{config.variables.data_local}/transactions_text_inference.csv',
         index=False
     )
-    # transactions_text["inputs"] = '''You are a machine learning model trained to predict user churn based on structured financial transaction data.
-    # Each row in the input represents a single transaction
-    # Your task is to analyze the transaction history and determine whether the user is likely to churn (i.e., stop using the service).
-    # Transaction history:''' + transactions_text["inputs"]
-    # ---
-    
-    # transactions_text.to_json(
-    #     config.variables.out_root,
-    #     orient="records", 
-    #     lines=True
-    # )
-    
-    # preprocessor = get_feature_preprocessor(config)
-
-    # if config.dataset.presave:
-    #     transactions_text = pd.read_csv("assets/" + config.dataset.name + "/transactions_text_inference.csv")
-    # else:
-    #     transactions_text = transactions.progress_apply(
-    #         lambda row: trx_to_text_converter(config, row, preprocessor=preprocessor, inference=True), 
-    #         axis=1
-    #     )
-    #     transactions_text = pd.DataFrame(list(transactions_text), columns=["user_id", "inputs"])
-        # transactions_text.to_csv("assets/" + config.dataset.name + "/transactions_text_inference_amnt_mcc.csv", index=False)
-        # transactions_text.to_csv("/home/jovyan/zoloev-city/gigachat/source/ptls-experiments/scenario_age_pred/data/transactions_text_inference.csv", index=False)
-    # transactions_text = pd.read_csv("/home/jovyan/zoloev-city/gigachat/source/ptls-experiments/scenario_age_pred/data/transactions_text_inference.csv")
-    # transactions_text = pd.read_csv("/home/jovyan/zoloev-city/gigachat/source/ptls-experiments/scenario_age_pred/data/transactions_text_inference.csv")
-
-    # transactions_text = pd.read_csv("/home/jovyan/zoloev-city/gigachat/source/ptls-experiments/scenario_rosbank/data/4orecsys-inference.csv")
-    # transactions_text = transactions_text[['user_id', 'inputs']]
 
     tokenized_transactions = [
     {

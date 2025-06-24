@@ -22,16 +22,7 @@ def get_data_collator(
         mlm=False,
     )
     return data_collator
-
-
-# def get_tokenizer(
-#     config,
-#     train=True
-# ):
-#     tokenizer = AutoTokenizer.from_pretrained(
-#         config.model.path if train else config.model.save_path,
-#     )
-#     return tokenizer
+    
 
 def get_tokenizer(
     config,
@@ -41,21 +32,6 @@ def get_tokenizer(
     )
     return tokenizer
 
-
-# def get_model(
-#     config,
-#     train=True
-# ):
-#     attn_implementation = "flash_attention_2" if config.model.use_flash_attn else None
-#     torch_dtype = torch.bfloat16 if config.model.use_bfloat16 else torch.float16
-
-#     model = AutoModelForCausalLM.from_pretrained(
-#         config.model.path if train else config.model.save_path,
-#         attn_implementation=attn_implementation,
-#         torch_dtype=torch_dtype
-#     )
-#     print(config.model.path if train else config.model.save_path)
-#     return model
 
 def get_model(
     config,
@@ -136,11 +112,7 @@ def get_feature_preprocessor(
                 
                 mccs = pd.read_csv(mcc_path)
                 self.mcc_dict = dict(zip(mccs["MCC_Code"], mccs["name"]))
-
-                #
                 self.mcc_values = list(self.mcc_dict.values())
-                #
-                
                 mapping = pd.read_csv(mapping_path)
                 self.mapping = dict(zip(mapping['mcc'], mapping['_orig_mcc']))
         
@@ -151,17 +123,11 @@ def get_feature_preprocessor(
                     return str(np.int32(value))
                 elif feature == "trx_category":
                     return self.trx_category_dict[value]
-                    # return str(value)
                 elif feature == "mcc":
                     mapped_value = self.mapping.get(value)
                     if mapped_value is None:
                         raise ValueError(f"MCC value '{value}' not found in mapping.")
                     return self.mcc_dict.get(mapped_value, "Unknown MCC")
-                    # return str(value)
-
-                    #
-                    # return random.choice(self.mcc_values)
-                    #
                 else:
                     return str(value)
         

@@ -44,9 +44,9 @@ def get_feature_preprocessor(
                 return str(value)
     
     preprocessor = FeaturePreprocessor(
-        "/home/jovyan/zoloev-city/gigachat/source/ptls-experiments/scenario_rosbank/data/meta/trx_category_dict.npz",
-        "/home/jovyan/zoloev-city/gigachat/source/ptls-experiments/scenario_rosbank/data/meta/MCC_Data_with_Translated_Names.csv",
-        "/home/jovyan/zoloev-city/gigachat/source/ptls-experiments/scenario_rosbank/data/meta/part-00000-38e28af2-5979-458d-86e2-363a7cf328be-c000.csv"
+        ".../meta/trx_category_dict.npz",
+        ".../meta/MCC_Data_with_Translated_Names.csv",
+        ".../meta/part-00000-38e28af2-5979-458d-86e2-363a7cf328be-c000.csv"
     )
     return preprocessor
 
@@ -70,17 +70,17 @@ def trx_to_text_converter(
     ]
     text = config.dataset.trx_separator.join(transactions)
 
-    # if config.dataset.chat:
-    #     messages = [
-    #         {"role": "system", "content": config.dataset.chat_messages.system},
-    #         {"role": "user", "content": config.dataset.chat_messages.user + text}
-    #     ]
+    if config.dataset.chat:
+        messages = [
+            {"role": "system", "content": config.dataset.chat_messages.system},
+            {"role": "user", "content": config.dataset.chat_messages.user + text}
+        ]
 
-    #     text = tokenizer.apply_chat_template(
-    #         messages, 
-    #         add_generation_prompt=True,
-    #         tokenize=False
-    #     )
+        text = tokenizer.apply_chat_template(
+            messages, 
+            add_generation_prompt=True,
+            tokenize=False
+        )
 
     return int(transaction[config.dataset.col_id]), text
 
