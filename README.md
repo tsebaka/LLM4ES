@@ -22,6 +22,12 @@ in this repo:
   * `llm-foundry/` - fastest multi-gpu llm train
   * `ptls-experiments/` - data & downstream embeddings validation
 * `scripts/` - скрипты для запуска экспериментов и аугментаций
+  * `convert_to_text.sh` - переводит массивы транзакций в заданный формат текста, затем переводит текст в Mosaic ML Streaming формат
+  * `train.sh.sh` - multi gpu LLM training на задачу next token prediction
+  * `model_convertation.sh` - конвертация модели с формата Mosaic ML composer в формат hf transformers
+  * `inference.sh` - multi gpu inference
+  * `run.sh` - весь пайплайн с заданным seed
+  * `run_multi_seed.sh` - весь пайплайн с multi seed
 
 Три основных конфига (под каждый датасет) лежат в:
 `source/llm-foundry/scripts/train/yamls/pretrain`
@@ -177,4 +183,8 @@ pipenv run python -m embeddings_validation \
 conda deactivate
 ```
 
+# Hardware
+В моём распоряжении было:
 
+- 8× NVIDIA A100 GPUs (80 GB HBM2e per GPU)
+- 1 TB of DDR4 RAM
