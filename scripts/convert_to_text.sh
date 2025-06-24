@@ -11,3 +11,8 @@ python $WORK_DIR/source/llm4trx/convert_to_text.py \
     --config-dir $CONFIG_DIR \
     --config-name $CONFIG \
     variables.work_dir=$WORK_DIR
+
+python $WORK_DIR/source/llm-foundry/scripts/data_prep/convert_dataset_json.py \
+    --config-dir $CONFIG_DIR \
+    --config-name $CONFIG \
+    variables.work_dir=$WORK_DIR
