@@ -119,6 +119,8 @@ accelerate launch $WORK_DIR/source/llm4trx/inference.py \
     --config-dir $CONFIG_DIR \
     --config-name $CONFIG \
     variables.work_dir=$WORK_DIR
+echo "========== completed! =========="
+```
 
 ## hf-style training & augmentations
 ```sh
@@ -174,9 +176,6 @@ pipenv run python -m embeddings_validation \
     +total_cpu_count=20 \
     ++report_file=".../checkpoints-logs/${exp_name}/experiment_name.txt"
 conda deactivate
-```
-    
-echo "========== completed! =========="
 ```
 
 
