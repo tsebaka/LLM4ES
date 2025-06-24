@@ -23,6 +23,11 @@ in this repo:
   * `ptls-experiments/` - data & downstream embeddings validation
 * `scripts/` - скрипты для запуска экспериментов и аугментаций
 
+Три основных конфига (под каждый датасет) лежат в:
+`scripts/train/yamls/pretrain`
+Конфиги (с версией для HF) лежат в:
+`source/llm4trx/config` - сейчас используются для аугментаций
+
 # code
 В [llm-foundry](https://github.com/mosaicml/llm-foundry/tree/main) по дефолту используется argparse, так как это не совсем удобно, 
 я переписал часть их кода для того
@@ -67,6 +72,52 @@ pip install -e ".[gpu]"
 pip install deepspeed=0.15.4
 cd ..
 ```
+
+## llm-foundry training
+```sh
+# set -e
+
+WORK_DIR=$HOME/zoloev-city/exp_name
+CONFIG_DIR=$WORK_DIR/source/llm-foundry/scripts/train/yamls/pretrain
+
+source $WORK_DIR/source/llm-foundry/llmfoundry-venv/bin/activate
+
+export WANDB_API_KEY=2736e3a99574e3049342cd33a3154aa307a08aa1
+export WANDB_PROJECT="llm4trx"
+export WANDB_DIR=$WORK_DIR/checkpoints
+
+
+CONFIG=config_name
+echo "========== starting... $CONFIG =========="
+
+echo "========== convert to text... =========="
+python $WORK_DIR/source/llm4trx/convert_to_text.py \
+    --config-dir $CONFIG_DIR \
+    --config-name $CONFIG \
+    variables.work_dir=$WORK_DIR
+
+echo "========== convert to streaming... =========="
+python $WORK_DIR/source/llm-foundry/scripts/data_prep/convert_dataset_json.py \
+    --config-dir $CONFIG_DIR \
+    --config-name $CONFIG \
+    variables.work_dir=$WORK_DIR
+
+echo "========== training llm foundry... =========="
+composer $WORK_DIR/source/llm-foundry/scripts/train/train.py \
+    $CONFIG_DIR/$CONFIG \
+    variables.work_dir=$WORK_DIR
+
+echo "========== convert model to hf... =========="
+python $WORK_DIR/source/llm-foundry/scripts/inference/convert_composer_to_hf.py \
+    --config-dir $CONFIG_DIR \
+    --config-name $CONFIG \
+    variables.work_dir=$WORK_DIR
+
+echo "========== inference... =========="
+accelerate launch $WORK_DIR/source/llm4trx/inference.py \
+    --config-dir $CONFIG_DIR \
+    --config-name $CONFIG \
+    variables.work_dir=$WORK_DIR
 
 ## hf-style training & augmentations
 ```sh
@@ -123,52 +174,6 @@ pipenv run python -m embeddings_validation \
     ++report_file=".../checkpoints-logs/${exp_name}/experiment_name.txt"
 conda deactivate
 ```
-
-## llm-foundry training
-```sh
-# set -e
-
-WORK_DIR=$HOME/zoloev-city/exp_name
-CONFIG_DIR=$WORK_DIR/source/llm-foundry/scripts/train/yamls/pretrain
-
-source $WORK_DIR/source/llm-foundry/llmfoundry-venv/bin/activate
-
-export WANDB_API_KEY=2736e3a99574e3049342cd33a3154aa307a08aa1
-export WANDB_PROJECT="llm4trx"
-export WANDB_DIR=$WORK_DIR/checkpoints
-
-
-CONFIG=config_name
-echo "========== starting... $CONFIG =========="
-
-echo "========== convert to text... =========="
-python $WORK_DIR/source/llm4trx/convert_to_text.py \
-    --config-dir $CONFIG_DIR \
-    --config-name $CONFIG \
-    variables.work_dir=$WORK_DIR
-
-echo "========== convert to streaming... =========="
-python $WORK_DIR/source/llm-foundry/scripts/data_prep/convert_dataset_json.py \
-    --config-dir $CONFIG_DIR \
-    --config-name $CONFIG \
-    variables.work_dir=$WORK_DIR
-
-echo "========== training llm foundry... =========="
-composer $WORK_DIR/source/llm-foundry/scripts/train/train.py \
-    $CONFIG_DIR/$CONFIG \
-    variables.work_dir=$WORK_DIR
-
-echo "========== convert model to hf... =========="
-python $WORK_DIR/source/llm-foundry/scripts/inference/convert_composer_to_hf.py \
-    --config-dir $CONFIG_DIR \
-    --config-name $CONFIG \
-    variables.work_dir=$WORK_DIR
-
-echo "========== inference... =========="
-accelerate launch $WORK_DIR/source/llm4trx/inference.py \
-    --config-dir $CONFIG_DIR \
-    --config-name $CONFIG \
-    variables.work_dir=$WORK_DIR
     
 echo "========== completed! =========="
 ```
