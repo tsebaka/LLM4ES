@@ -76,7 +76,6 @@ cd ..
 
 ## llm-foundry training
 ```sh
-# set -e
 
 WORK_DIR=$HOME/zoloev-city/exp_name
 CONFIG_DIR=$WORK_DIR/source/llm-foundry/scripts/train/yamls/pretrain
