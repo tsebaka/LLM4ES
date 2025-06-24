@@ -186,5 +186,5 @@ conda deactivate
 # Hardware
 В моём распоряжении было:
 
-- 8× NVIDIA A100 GPUs (80 GB HBM2e per GPU)
+- 8x NVIDIA A100 GPUs (80 GB HBM2e per GPU)
 - 1 TB of DDR4 RAM
