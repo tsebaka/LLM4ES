@@ -202,3 +202,20 @@ conda deactivate
 
 - 8x NVIDIA A100 GPUs (80 GB HBM2e per GPU)
 - 1 TB of DDR4 RAM
+
+## Results
+
+### Throughput
+<p align="center">
+  <img src="assets/throughput.png" alt="llm4trx" width="1000"/>
+</p>
+
+### Loss
+<p align="center">
+  <img src="assets/loss.png" alt="llm4trx" width="1000"/>
+</p>
+
+### Metrics
+<p align="center">
+  <img src="assets/results.png" alt="llm4trx" width="1000"/>
+</p>
