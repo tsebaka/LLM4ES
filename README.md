@@ -207,15 +207,15 @@ conda deactivate
 
 ### Throughput
 <p align="center">
-  <img src="assets/throughput.png" alt="llm4trx" width="1000"/>
+  <img src="assets/throughput.png" alt="llm4trx" width="500"/>
 </p>
 
 ### Loss
 <p align="center">
-  <img src="assets/loss.png" alt="llm4trx" width="1000"/>
+  <img src="assets/loss.png" alt="llm4trx" width="500"/>
 </p>
 
 ### Metrics
 <p align="center">
-  <img src="assets/results.png" alt="llm4trx" width="1000"/>
+  <img src="assets/results.png" alt="llm4trx" width="500"/>
 </p>
