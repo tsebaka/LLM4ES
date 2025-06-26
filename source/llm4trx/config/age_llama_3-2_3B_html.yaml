@@ -9,7 +9,6 @@ model:
     path: "meta-llama/Llama-3.2-3B"
     marking_path: "meta-llama/Llama-3.1-8B-Instruct"
     save_path: ".../checkpoints-logs/age_llama_3-2_3B/checkpoint-352500"
-    # save_path: "...t/checkpoints-logs/${exp_name}/${checkpoint}"
     use_flash_attn: true
     use_bfloat16: true
     equal_pad_eos_id: true
