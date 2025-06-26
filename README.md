@@ -4,7 +4,7 @@
 </p>
 
 ## about
-Этот репозиторий посвящён экспериментам с LLM на транзакционных данных
+Этот репозиторий посвящён экспериментам с LLM на транзакционных датасетах: [Rosbank](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_rosbank), [Age](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_age_pred), [Gender](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_gender)
 
 Включает код для моего [диплома](https://drive.google.com/file/d/1YDm5gYVeSLEMmF_wP3rEfPRPy-1fPvyy/view),
 а также для экспериментах на открытых данных 
