@@ -31,7 +31,7 @@ in this repo:
   * `inference.sh` - multi gpu inference
   * `run.sh` - весь пайплайн с заданным seed
   * `run_multi_seed.sh` - весь пайплайн с multi seed
-* source/llm4trx
+* `source/llm4trx`
   * `run.sh` - запуск всего пайплайна на основе HF transformers
 
 Три основных конфига (под каждый датасет) лежат в:
