@@ -3,52 +3,20 @@ import pandas as pd
 import tqdm
 import numpy as np
 import torch
+import yaml
+import json
+         
 
 from src.utils.utils import DataCollatorWithUserIds, get_feature_preprocessor
 from tqdm import tqdm
 from datasets import Dataset
-from tqdm import tqdm
 from torch.utils.data import DataLoader
+from copy import deepcopy
+from html import escape
+
 
 tqdm.pandas(leave=True)
 
-def get_feature_preprocessor(
-    config,
-):
-    class FeaturePreprocessor:
-        def __init__(self, trx_category_path, mcc_path, mapping_path):
-            categories = np.load(trx_category_path)
-            self.trx_category_dict = {int(key): categories[key].item() for key in categories}
-            
-            mccs = pd.read_csv(mcc_path)
-            self.mcc_dict = dict(zip(mccs["MCC_Code"], mccs["name"]))
-    
-            mapping = pd.read_csv(mapping_path)
-            self.mapping = dict(zip(mapping['mcc'], mapping['_orig_mcc']))
-    
-        def preprocess(self, config, value, feature):
-            if feature == "event_time":
-                return str(np.int32(value))
-            elif feature == "amount":
-                return str(np.int32(value))
-            elif feature == "trx_category":
-                return self.trx_category_dict[value]
-                # return str(value)
-            elif feature == "mcc":
-                mapped_value = self.mapping.get(value)
-                if mapped_value is None:
-                    raise ValueError(f"MCC value '{value}' not found in mapping.")
-                return self.mcc_dict.get(mapped_value, "Unknown MCC")
-                # return str(value)
-            else:
-                return str(value)
-    
-    preprocessor = FeaturePreprocessor(
-        ".../meta/trx_category_dict.npz",
-        ".../meta/MCC_Data_with_Translated_Names.csv",
-        ".../meta/part-00000-38e28af2-5979-458d-86e2-363a7cf328be-c000.csv"
-    )
-    return preprocessor
 
 def trx_to_text_converter(
     config,
@@ -83,9 +51,7 @@ def trx_to_text_converter(
         )
 
     return int(transaction[config.dataset.col_id]), text
-
-import yaml         
-from copy import deepcopy
+    
 
 def trx_to_yaml_converter(
     config,
@@ -141,8 +107,6 @@ def trx_to_yaml_converter(
 
     return int(transaction[config.dataset.col_id]), text
 
-import json
-from copy import deepcopy 
 
 def trx_to_json_converter(
     config,
@@ -197,7 +161,6 @@ def trx_to_json_converter(
 
     return int(transaction[config.dataset.col_id]), text
 
-from html import escape
 
 def trx_to_html_converter(
     config,
@@ -257,6 +220,7 @@ def trx_to_html_converter(
         )
 
     return int(transaction[config.dataset.col_id]), html_text
+
 
 def trx_to_sql_converter(
     config,
@@ -352,9 +316,6 @@ def trx_to_text_converter_grouped_by_mcc(
     tokenizer=None,
     chat=False,
 ):
-    # from transformers import AutoTokenizer
-
-    # tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.1-8B-Instruct")
     from collections import defaultdict
 
     features = [f for f in config.variables.dataset.features if f != "small_group"]
