@@ -26,8 +26,7 @@ def inference(
 ):
     accelerator = Accelerator()
     accelerator.wait_for_everyone()
-    
-    # tokenizer = get_tokenizer(config, train=True)
+   
     tokenizer = get_tokenizer(config)
     model = get_model(config, train=False)
     model.eval()
