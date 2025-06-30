@@ -13,6 +13,17 @@ from transformers import (
 from vllm import LLM
 
 
+def set_global_seed(
+    config
+):
+    torch.manual_seed(config.variables.global_seed)
+    torch.cuda.manual_seed_all(config.variables.global_seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    np.random.seed(config.variables.global_seed)
+    set_seed(config.variables.global_seed) 
+
+
 def get_data_collator(
     config,
     tokenizer
