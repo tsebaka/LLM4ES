@@ -11,7 +11,8 @@ from src.dataset.dataset import get_train_dataset
 from src.utils.utils import (
     get_model,
     get_tokenizer,
-    get_data_collator
+    get_data_collator,
+    set_global_seed
 )
 from transformers import (
     AutoModelForCausalLM,
@@ -22,15 +23,6 @@ from transformers import (
 )
 
 warnings.filterwarnings("ignore")
-
-
-def set_global_seed(config):
-    torch.manual_seed(config.seed)
-    torch.cuda.manual_seed_all(config.seed)
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
-    np.random.seed(config.seed)
-    set_seed(config.seed)
 
 
 def train(
