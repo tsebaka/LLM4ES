@@ -21,7 +21,7 @@ python -m dataset_preparing \
     ++dataset.presave=false
 
 # ntp train
-accelerate launch sft_train.py \
+accelerate launch pretrain.py \
     --config-dir config \
     --config-name ${config_name} \
     ++exp_name=${exp_name} \
