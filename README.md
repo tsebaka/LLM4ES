@@ -49,12 +49,12 @@ in this repo:
 что отличает оригинальную библиотеку от моего форка, который используется в этом репозитории.
 
 Немного про различия двух вариантов запуска:
-| Параметр  | transaformers | llm-foundry |
+| Параметр  | transformers | llm-foundry |
 |-----------|-----------|-----------|
 |augmentations|[vllm](https://github.com/vllm-project/vllm)|[vllm](https://github.com/vllm-project/vllm)|
 |dataset |.csv переведённый в hf dataset|.jsonl переведённый в формат [Streaming dataset](https://github.com/mosaicml/streaming)|
 | FSDP  | - | + |
-| inferece  | multi gpu [accelerate](https://github.com/huggingface/accelerate)  | multi gpu [accelerate](https://github.com/huggingface/accelerate)  |
+| inference  | multi gpu [accelerate](https://github.com/huggingface/accelerate)  | multi gpu [accelerate](https://github.com/huggingface/accelerate)  |
 | model  | hugging face AutoModel  | Mosaic ML composer  |
 | скорость (на датасете росбанка)  | 2.5h | 1.3h  |
 | удобство в добавлении деталей | максимально гибок | сложно без переписывания библиотеки добавить что-то новое  |
