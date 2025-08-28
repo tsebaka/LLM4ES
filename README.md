@@ -1,10 +1,22 @@
 # LLM4ES
 <p align="center">
-  <img src="assets/llm4trx-logo.png" alt="llm4trx" width="1000"/>
+  <img src="assets/llm.png" alt="llm4trx" width="1000"/>
 </p>
 
-## about
-This repository is dedicated to experiments with LLMs on transactional datasets: [Rosbank](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_rosbank), [Age](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_age_pred), [Gender](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_gender).
+## About
+This repository is dedicated to experiments with LLMs on transactional datasets: [Rosbank](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_rosbank), [Age](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_age_pred), [Gender](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_gender) for paper [LLM4ES: Learning User Embeddings from Event Sequences via
+Large Language Models](https://arxiv.org/pdf/2508.05688v1)
+
+## Overall description
+This paper presents LLM4ES, a novel framework that exploits
+large pre-trained language models (LLMs) to derive user embeddings from event sequences. Event sequences are transformed into
+a textual representation, which is subsequently used to fine-tune
+an LLM through next-token prediction to generate high-quality embeddings. We introduce a text enrichment technique that enhances
+LLM adaptation to event sequence data, improving representation
+quality for low-variability domains. Experimental results demonstrate that LLM4ES achieves state-of-the-art performance in user
+classification tasks in financial and other domains, outperforming
+existing embedding methods. The resulting user embeddings can
+be incorporated into a wide range of applications, from user segmentation in finance to patient outcome prediction in healthcare
 
 In this repo:
 * `source/` - source code
@@ -211,5 +223,5 @@ conda deactivate
 
 ### Metrics
 <p align="center">
-  <img src="assets/results.png" alt="llm4trx" width="500"/>
+  <img src="assets/main_results.png" alt="llm4trx" width="500"/>
 </p>
