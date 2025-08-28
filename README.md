@@ -6,9 +6,6 @@
 ## about
 This repository is dedicated to experiments with LLMs on transactional datasets: [Rosbank](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_rosbank), [Age](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_age_pred), [Gender](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_gender).
 
-It includes code for my [thesis](https://drive.google.com/file/d/1YDm5gYVeSLEMmF_wP3rEfPRPy-1fPvyy/view),  
-as well as for experiments on open data carried out during my research work at **Sber AI Lab** in the [transactional deep learning](https://github.com/pytorch-lifestream) team.  
-
 In this repo:
 * `source/` - source code
   * `llm4trx/` - HF-style multi-gpu LLM training
