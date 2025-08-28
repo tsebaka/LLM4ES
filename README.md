@@ -56,7 +56,7 @@ Some differences between two training variants:
 
 ## usage
 
-### с Docker'ом (лучше всего)
+### with Docker (best option)
 image: https://hub.docker.com/orgs/mosaicml/repositories.
 <!--pytest.mark.skip-->
 ```bash
@@ -65,7 +65,7 @@ cd llm-foundry
 pip install -e ".[gpu]"
 ```
 
-### настройка окружения (без Docker'а)
+### environment setup (without Docker)
 ```sh
 git clone https://github.com/tsebaka/LLM4Trx-research.git
 cd LLM4Trx-research
