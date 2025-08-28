@@ -9,7 +9,8 @@ from src.utils.utils import (
     get_tokenizer, 
     get_model, 
     get_embedding,
-    coles_concat
+    coles_concat,
+    set_global_seed
 )
 from src.dataset.dataset import get_inference_dataset
 from accelerate import Accelerator
@@ -20,24 +21,12 @@ from tqdm import tqdm
 warnings.filterwarnings('ignore')
 
 
-def set_global_seed(
-    config
-):
-    torch.manual_seed(config.variables.global_seed)
-    torch.cuda.manual_seed_all(config.variables.global_seed)
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
-    np.random.seed(config.variables.global_seed)
-    set_seed(config.variables.global_seed) 
-
-
 def inference(
     config,
 ):
     accelerator = Accelerator()
     accelerator.wait_for_everyone()
-    
-    # tokenizer = get_tokenizer(config, train=True)
+   
     tokenizer = get_tokenizer(config)
     model = get_model(config, train=False)
     model.eval()

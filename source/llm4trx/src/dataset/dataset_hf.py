@@ -65,7 +65,7 @@ def get_vllm_dataset(
         lambda row: trx_to_text_converter(config, row, preprocessor=preprocessor, tokenizer=tokenizer, chat=True, inference=False), 
         axis=1
     )
-    transactions.to_csv("assets/" + config.dataset.name + "/marking_dataset_150.csv", index=False)
+    transactions.to_csv("assets/" + config.dataset.name + "/marking_dataset.csv", index=False)
 
     return transactions
     

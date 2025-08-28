@@ -1,68 +1,74 @@
-# LLM4Trx-research
+# LLM4ES
 <p align="center">
-  <img src="assets/llm4trx-logo.png" alt="llm4trx" width="1000"/>
+  <img src="assets/llm.png" alt="llm4es" width="1000"/>
 </p>
 
-## about
-Этот репозиторий посвящён экспериментам с LLM на транзакционных данных
+## About
+This repository is dedicated to experiments with LLMs on transactional datasets: [Rosbank](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_rosbank), [Age](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_age_pred), [Gender](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_gender) for paper [LLM4ES: Learning User Embeddings from Event Sequences via
+Large Language Models](https://arxiv.org/pdf/2508.05688v1)
 
-Включает код для моего [диплома](https://drive.google.com/file/d/1YDm5gYVeSLEMmF_wP3rEfPRPy-1fPvyy/view),
-а также для экспериментах на открытых данных 
-в ходе моей исследовательской работы в Sber AI Lab команде [transactional deep learning](https://github.com/pytorch-lifestream)
+## Overall description
+This paper presents LLM4ES, a novel framework that exploits
+large pre-trained language models (LLMs) to derive user embeddings from event sequences. Event sequences are transformed into
+a textual representation, which is subsequently used to fine-tune
+an LLM through next-token prediction to generate high-quality embeddings. We introduce a text enrichment technique that enhances
+LLM adaptation to event sequence data, improving representation
+quality for low-variability domains. Experimental results demonstrate that LLM4ES achieves state-of-the-art performance in user
+classification tasks in financial and other domains, outperforming
+existing embedding methods. The resulting user embeddings can
+be incorporated into a wide range of applications, from user segmentation in finance to patient outcome prediction in healthcare
 
-in this repo:
+In this repo:
 * `source/` - source code
-  * `llm4trx/` - HF-style multi-gpu llm train
-    * `augmentation.py` - код для запуска vllm для генерации аугментаций
-    * `pretrain.py` - для next-token-prediction LLM training
-    * `inference.py` - multi-gpu llm inference
-    * `convert_to_text.py` - конвертер в базовый формат с сохранением jsonl файла (для дальнейшей конвертации в стриминг)
-    * `converters.py` - конвертеры в разные форматы
+  * `llm4trx/` - HF-style multi-gpu LLM training
+    * `augmentation.py` - code for launching vllm to generate augmentations
+    * `pretrain.py` - for next-token-prediction LLM training
+    * `inference.py` - multi-gpu LLM inference
+    * `convert_to_text.py` - converter to base format, saving as jsonl (for later conversion to streaming)
+    * `converters.py` - converters to different formats
       * `src/`
-        * `dataset.py` - всё что связано с обработкой датасета, будь то перевод в текст или создание DataLoader
-        * `dataset_hf.py` - весия датасета, используется для тренировки в HF-style и аугментаций
-        * `utils.py` - утилиты для получения моделей, эмбеддинга, подсчёта параметров модели и тд
-  * `llm-foundry/` - fastest multi-gpu llm train
+        * `dataset.py` - everything related to dataset processing: text conversion, DataLoader creation, etc.
+        * `dataset_hf.py` - dataset version for HF-style training and augmentations
+        * `utils.py` - utilities for loading models, embeddings, counting model parameters, etc.
+  * `llm-foundry/` - fastest multi-gpu LLM training
   * `ptls-experiments/` - data & downstream embeddings validation
-* `scripts/` - скрипты для запуска экспериментов и аугментаций
-  * `convert_to_text.sh` - переводит массивы транзакций в заданный формат текста, затем переводит текст в Mosaic ML Streaming формат
-  * `train.sh.sh` - multi gpu LLM training на задачу next token prediction
-  * `model_convertation.sh` - конвертация модели с формата Mosaic ML composer в формат hf transformers
-  * `inference.sh` - multi gpu inference
-  * `run.sh` - весь пайплайн с заданным seed
-  * `run_multi_seed.sh` - весь пайплайн с multi seed
-* source/llm4trx
-  * `run.sh` - запуск всего пайплайна на основе HF transformers
+* `scripts/` - scripts for running experiments and augmentations
+  * `convert_to_text.sh` - converts arrays of transactions into text format, then into MosaicML Streaming format
+  * `train.sh.sh` - multi-gpu LLM training for next-token prediction
+  * `model_convertation.sh` - convert model from MosaicML Composer format into HF Transformers format
+  * `inference.sh` - multi-gpu inference
+  * `run.sh` - full pipeline with given seed
+  * `run_multi_seed.sh` - full pipeline with multi-seed
+* `source/llm4trx`
+  * `run.sh` - run the entire pipeline based on HF Transformers
 
-Три основных конфига (под каждый датасет) лежат в:
+The three main configs (one per dataset) are located in:  
 `source/llm-foundry/scripts/train/yamls/pretrain`
 
-Конфиги (с версией для HF, сейчас используются для аугментаций) лежат в:
+Configs (HF versions, currently used for augmentations) are located in:  
 `source/llm4trx/config`
 
 ## code
-В [llm-foundry](https://github.com/mosaicml/llm-foundry/tree/main) по дефолту используется argparse, так как это не совсем удобно, 
-я переписал часть их кода для того
-чтобы можно было использовать Hydra и удобно пользоваться конфигами. Также я добавил в их [ConcatTokensDataset](https://github.com/tsebaka/llm-foundry/blob/c70a4847463da8859d7236874ad6705285460f1a/llmfoundry/data/data.py) возможность
-обрезать последовательность по max_length, а не просто указывать concat_tokens (потому что библиотека используется
-для обучения LLM с нуляи и там просто нет смысла делать обрезку по max_length в режиме pretrain). Это единственное,
-что отличает оригинальную библиотеку от моего форка, который используется в этом репозитории.
+In [llm-foundry](https://github.com/mosaicml/llm-foundry/tree/main) argparse is used by default, which is not very convenient.  
+I rewrote part of their code to make it possible to use Hydra and configs more easily.  
+I also added to their [ConcatTokensDataset](https://github.com/tsebaka/llm-foundry/blob/c70a4847463da8859d7236874ad6705285460f1a/llmfoundry/data/data.py) the ability to truncate by `max_length` instead of just `concat_tokens` (because the library is used for pretraining LLMs from scratch, where max_length truncation makes sense).  
+This is the only difference between the original library and my fork used in this repo.
 
-Немного про различия двух вариантов запуска:
-| Параметр  | transaformers | llm-foundry |
+Some differences between two training variants:
+| Parameter  | transformers | llm-foundry |
 |-----------|-----------|-----------|
 |augmentations|[vllm](https://github.com/vllm-project/vllm)|[vllm](https://github.com/vllm-project/vllm)|
-|dataset |.csv переведённый в hf dataset|.jsonl переведённый в формат [Streaming dataset](https://github.com/mosaicml/streaming)|
+|dataset |.csv converted into HF dataset|.jsonl converted into [Streaming dataset](https://github.com/mosaicml/streaming)|
 | FSDP  | - | + |
-| inferece  | multi gpu [accelerate](https://github.com/huggingface/accelerate)  | multi gpu [accelerate](https://github.com/huggingface/accelerate)  |
-| model  | hugging face AutoModel  | Mosaic ML composer  |
-| скорость (на датасете росбанка)  | 2.5h | 1.3h  |
-| удобство в добавлении деталей | максимально гибок | сложно без переписывания библиотеки добавить что-то новое  |
-| начальные эксперименты | + | - |
+| inference  | multi gpu [accelerate](https://github.com/huggingface/accelerate)  | multi gpu [accelerate](https://github.com/huggingface/accelerate)  |
+| model  | Hugging Face AutoModel  | MosaicML Composer  |
+| speed (on Rosbank dataset)  | 2.5h | 1.3h  |
+| ease of adding details | highly flexible | hard to add new features without rewriting |
+| initial experiments | + | - |
 
 ## usage
 
-### с Docker'ом (лучше всего)
+### with Docker (best option)
 image: https://hub.docker.com/orgs/mosaicml/repositories.
 <!--pytest.mark.skip-->
 ```bash
@@ -71,7 +77,7 @@ cd llm-foundry
 pip install -e ".[gpu]"
 ```
 
-### настройка окружения (без Docker'а)
+### environment setup (without Docker)
 ```sh
 git clone https://github.com/tsebaka/LLM4Trx-research.git
 cd LLM4Trx-research
@@ -217,5 +223,5 @@ conda deactivate
 
 ### Metrics
 <p align="center">
-  <img src="assets/results.png" alt="llm4trx" width="500"/>
+  <img src="assets/main_results.png" alt="llm4trx" width="500"/>
 </p>

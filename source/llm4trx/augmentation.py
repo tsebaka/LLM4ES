@@ -7,20 +7,14 @@ import pandas as pd
 
 
 from src.llm4trx.dataset.dataset import get_vllm_dataset
-from src.llm4trx.utils.utils import get_vllm_model
+from src.llm4trx.utils.utils import (
+    get_vllm_model,
+    set_global_seed
+)
 from vllm import SamplingParams
 from transformers import set_seed
 
 warnings.filterwarnings("ignore")
-
-
-def set_global_seed(config):
-    torch.manual_seed(config.seed)
-    torch.cuda.manual_seed_all(config.seed)
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
-    np.random.seed(config.seed)
-    set_seed(config.seed)
 
 
 def vllm_inference(

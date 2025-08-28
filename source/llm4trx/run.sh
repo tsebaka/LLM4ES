@@ -13,7 +13,7 @@ export WANDB_DIR=$log_dir
 source llmfoundry-venv/bin/activate # для hf-style придётся доставить transformers нужной версии
 
 # llm text augmentations
-python -m dataset_preparing \
+python -m augmentation \
     --config-dir config \
     --config-name ${config_name} \
     ++exp_name=${exp_name} \
@@ -21,7 +21,7 @@ python -m dataset_preparing \
     ++dataset.presave=false
 
 # ntp train
-accelerate launch sft_train.py \
+accelerate launch pretrain.py \
     --config-dir config \
     --config-name ${config_name} \
     ++exp_name=${exp_name} \
