@@ -1,6 +1,6 @@
 # LLM4ES
 <p align="center">
-  <img src="assets/llm.png" alt="llm4es" width="1000"/>
+  <img src="assets/llm.png" alt="llm4es" width="500"/>
 </p>
 
 ## About
