@@ -4,61 +4,58 @@
 </p>
 
 ## about
-Этот репозиторий посвящён экспериментам с LLM на транзакционных датасетах: [Rosbank](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_rosbank), [Age](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_age_pred), [Gender](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_gender)
+This repository is dedicated to experiments with LLMs on transactional datasets: [Rosbank](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_rosbank), [Age](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_age_pred), [Gender](https://github.com/pytorch-lifestream/ptls-experiments/tree/main/scenario_gender).
 
-Включает код для моего [диплома](https://drive.google.com/file/d/1YDm5gYVeSLEMmF_wP3rEfPRPy-1fPvyy/view),
-а также для экспериментах на открытых данных 
-в ходе моей исследовательской работы в Sber AI Lab команде [transactional deep learning](https://github.com/pytorch-lifestream)
+It includes code for my [thesis](https://drive.google.com/file/d/1YDm5gYVeSLEMmF_wP3rEfPRPy-1fPvyy/view),  
+as well as for experiments on open data carried out during my research work at **Sber AI Lab** in the [transactional deep learning](https://github.com/pytorch-lifestream) team.  
 
-in this repo:
+In this repo:
 * `source/` - source code
-  * `llm4trx/` - HF-style multi-gpu llm train
-    * `augmentation.py` - код для запуска vllm для генерации аугментаций
-    * `pretrain.py` - для next-token-prediction LLM training
-    * `inference.py` - multi-gpu llm inference
-    * `convert_to_text.py` - конвертер в базовый формат с сохранением jsonl файла (для дальнейшей конвертации в стриминг)
-    * `converters.py` - конвертеры в разные форматы
+  * `llm4trx/` - HF-style multi-gpu LLM training
+    * `augmentation.py` - code for launching vllm to generate augmentations
+    * `pretrain.py` - for next-token-prediction LLM training
+    * `inference.py` - multi-gpu LLM inference
+    * `convert_to_text.py` - converter to base format, saving as jsonl (for later conversion to streaming)
+    * `converters.py` - converters to different formats
       * `src/`
-        * `dataset.py` - всё что связано с обработкой датасета, будь то перевод в текст или создание DataLoader
-        * `dataset_hf.py` - весия датасета, используется для тренировки в HF-style и аугментаций
-        * `utils.py` - утилиты для получения моделей, эмбеддинга, подсчёта параметров модели и тд
-  * `llm-foundry/` - fastest multi-gpu llm train
+        * `dataset.py` - everything related to dataset processing: text conversion, DataLoader creation, etc.
+        * `dataset_hf.py` - dataset version for HF-style training and augmentations
+        * `utils.py` - utilities for loading models, embeddings, counting model parameters, etc.
+  * `llm-foundry/` - fastest multi-gpu LLM training
   * `ptls-experiments/` - data & downstream embeddings validation
-* `scripts/` - скрипты для запуска экспериментов и аугментаций
-  * `convert_to_text.sh` - переводит массивы транзакций в заданный формат текста, затем переводит текст в Mosaic ML Streaming формат
-  * `train.sh.sh` - multi gpu LLM training на задачу next token prediction
-  * `model_convertation.sh` - конвертация модели с формата Mosaic ML composer в формат hf transformers
-  * `inference.sh` - multi gpu inference
-  * `run.sh` - весь пайплайн с заданным seed
-  * `run_multi_seed.sh` - весь пайплайн с multi seed
+* `scripts/` - scripts for running experiments and augmentations
+  * `convert_to_text.sh` - converts arrays of transactions into text format, then into MosaicML Streaming format
+  * `train.sh.sh` - multi-gpu LLM training for next-token prediction
+  * `model_convertation.sh` - convert model from MosaicML Composer format into HF Transformers format
+  * `inference.sh` - multi-gpu inference
+  * `run.sh` - full pipeline with given seed
+  * `run_multi_seed.sh` - full pipeline with multi-seed
 * `source/llm4trx`
-  * `run.sh` - запуск всего пайплайна на основе HF transformers
+  * `run.sh` - run the entire pipeline based on HF Transformers
 
-Три основных конфига (под каждый датасет) лежат в:
+The three main configs (one per dataset) are located in:  
 `source/llm-foundry/scripts/train/yamls/pretrain`
 
-Конфиги (с версией для HF, сейчас используются для аугментаций) лежат в:
+Configs (HF versions, currently used for augmentations) are located in:  
 `source/llm4trx/config`
 
 ## code
-В [llm-foundry](https://github.com/mosaicml/llm-foundry/tree/main) по дефолту используется argparse, так как это не совсем удобно, 
-я переписал часть их кода для того
-чтобы можно было использовать Hydra и удобно пользоваться конфигами. Также я добавил в их [ConcatTokensDataset](https://github.com/tsebaka/llm-foundry/blob/c70a4847463da8859d7236874ad6705285460f1a/llmfoundry/data/data.py) возможность
-обрезать последовательность по max_length, а не просто указывать concat_tokens (потому что библиотека используется
-для обучения LLM с нуляи и там просто нет смысла делать обрезку по max_length в режиме pretrain). Это единственное,
-что отличает оригинальную библиотеку от моего форка, который используется в этом репозитории.
+In [llm-foundry](https://github.com/mosaicml/llm-foundry/tree/main) argparse is used by default, which is not very convenient.  
+I rewrote part of their code to make it possible to use Hydra and configs more easily.  
+I also added to their [ConcatTokensDataset](https://github.com/tsebaka/llm-foundry/blob/c70a4847463da8859d7236874ad6705285460f1a/llmfoundry/data/data.py) the ability to truncate by `max_length` instead of just `concat_tokens` (because the library is used for pretraining LLMs from scratch, where max_length truncation makes sense).  
+This is the only difference between the original library and my fork used in this repo.
 
-Немного про различия двух вариантов запуска:
-| Параметр  | transformers | llm-foundry |
+Some differences between two training variants:
+| Parameter  | transformers | llm-foundry |
 |-----------|-----------|-----------|
 |augmentations|[vllm](https://github.com/vllm-project/vllm)|[vllm](https://github.com/vllm-project/vllm)|
-|dataset |.csv переведённый в hf dataset|.jsonl переведённый в формат [Streaming dataset](https://github.com/mosaicml/streaming)|
+|dataset |.csv converted into HF dataset|.jsonl converted into [Streaming dataset](https://github.com/mosaicml/streaming)|
 | FSDP  | - | + |
 | inference  | multi gpu [accelerate](https://github.com/huggingface/accelerate)  | multi gpu [accelerate](https://github.com/huggingface/accelerate)  |
-| model  | hugging face AutoModel  | Mosaic ML composer  |
-| скорость (на датасете росбанка)  | 2.5h | 1.3h  |
-| удобство в добавлении деталей | максимально гибок | сложно без переписывания библиотеки добавить что-то новое  |
-| начальные эксперименты | + | - |
+| model  | Hugging Face AutoModel  | MosaicML Composer  |
+| speed (on Rosbank dataset)  | 2.5h | 1.3h  |
+| ease of adding details | highly flexible | hard to add new features without rewriting |
+| initial experiments | + | - |
 
 ## usage
 
