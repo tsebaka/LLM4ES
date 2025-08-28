@@ -1,4 +1,4 @@
-# LLM4Trx-research
+# LLM4ES
 <p align="center">
   <img src="assets/llm4trx-logo.png" alt="llm4trx" width="1000"/>
 </p>
